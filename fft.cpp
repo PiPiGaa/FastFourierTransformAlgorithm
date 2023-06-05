@@ -107,6 +107,7 @@ private:
     }
 };
 
+//Test
 int main()
 {
     //Generating a sequence of random complex numbers
