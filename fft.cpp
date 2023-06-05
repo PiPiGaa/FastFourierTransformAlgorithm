@@ -113,7 +113,7 @@ int main()
     //Generating a sequence of random complex numbers
     srand(time(NULL));
     double n = pow(2, 5);
-    int h = 2; //any in range 1..n
+    int h = 2; //any in range 1..log2(n)
     vector<ftype> seq;
     for (int i = 0; i < n; i++) {
         ftype item(rand() % 1000, rand() % 1000);
