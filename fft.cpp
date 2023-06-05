@@ -15,7 +15,7 @@ ftype i(0, -1);
 class fft {
 public:
     //Constructor
-    fft(vector<ftype> seq_,double n_, int h_) {
+    fft(const vector<ftype>& seq_,const double& n_, const int& h_) {
         h = h_ < log2(n_) ? h_ : log2(n_);
         N = n_;
         seq = seq_;
@@ -40,7 +40,7 @@ public:
     }
 
     //Check for error
-    double Check() {
+    double Check() const {
         double error = 0;
         for (int y = 0; y < coeff.size(); y++)
             error += abs(seq[y]) - abs(newFFTseq[y]);
