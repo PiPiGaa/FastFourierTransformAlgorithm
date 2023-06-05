@@ -11,15 +11,18 @@ using namespace std;
 typedef complex<double> ftype;
 ftype i(0, -1);
 
+//Class_For_FastFourierTransform
 class fft {
 public:
+    //Constructor
     fft(vector<ftype> seq_,double n_, int h_) {
         h = h_ < log2(n_) ? h_ : log2(n_);
         N = n_;
         seq = seq_;
     }
 
-    void calcFFT() {
+    //Direct transform
+    void calcDirFFT() {
         coeff.clear();
         for (int k = 0; k < N; k++) {
             pair<ftype, ftype> s = calc_C(seq, N, h, k);
@@ -27,6 +30,7 @@ public:
         }
     }
 
+    //Reverse transform
     void calcRevFFT() {
         newFFTseq.clear();
         for (int k = 0; k < N; k++) {
@@ -35,6 +39,7 @@ public:
         }
     }
 
+    //Check for error
     double Check() {
         double error = 0;
         for (int y = 0; y < coeff.size(); y++)
@@ -43,12 +48,13 @@ public:
     }
 
 private:
-    int h;
-    double N;
-    vector<ftype> seq;
-    vector<ftype> coeff;
-    vector<ftype> newFFTseq;
+    int h; //conversion depth
+    double N; //sequence size
+    vector<ftype> seq; //input sequence
+    vector<ftype> coeff; //frequency coefficients
+    vector<ftype> newFFTseq; //output sequence
 
+    //Recursive division into an even and odd sum of a given depth for direct transform
     pair<ftype, ftype> calc_C(vector<ftype> buf, double n_, int h, int k) {
         pair<ftype, ftype> e, o;
         vector<ftype> S_mas_even;
@@ -74,7 +80,7 @@ private:
         }
     }
 
-
+    //Recursive division into an even and odd sum of a given depth for reverse transform
     pair<ftype, ftype> calc_X(vector<ftype> buf, double n_, int h, int k) {
         pair<ftype, ftype> e, o;
         vector<ftype> S_mas_even;
@@ -103,9 +109,10 @@ private:
 
 int main()
 {
+    //Generating a sequence of random complex numbers
     srand(time(NULL));
-    double n = pow(2, 12);
-    int h = 1;
+    double n = pow(2, 5);
+    int h = 1; //any in range 1..n
     vector<ftype> seq;
     for (int i = 0; i < n; i++) {
         ftype item(rand() % 1000, rand() % 1000);
@@ -113,7 +120,8 @@ int main()
     }
     fft gg(seq, n, h);
 
-    gg.calcFFT();
+    //Running fourier transforms
+    gg.calcDirFFT();
     gg.calcRevFFT();
     cout << "error: " << gg.Check();
 
